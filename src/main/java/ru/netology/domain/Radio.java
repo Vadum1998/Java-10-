@@ -1,67 +1,77 @@
 package ru.netology.domain;
 
-
 public class Radio {
-    private int currentStation;//-------Номер текущей радиостанции----
-    private int currentVolume;//--------Громкость звука-------
+    private int maxRadioStation = 9;
+    private int minRadioStation = 0;
+    private int currentRadioStation;
+    private int maxVolume = 100;
+    private int minVolume = 0;
+    private int currentVolume;
+    private int countRadioStation = 10;
 
-    public int getCurrentStation() {// получить № станции
-        return currentStation;
+    public Radio() {
     }
 
-    public void setCurrentStation(int currentStation) {//установить текущую станцию Тута
-        if (currentStation < 0) {//меньше минимума
+    public Radio(int countRadioStation) {
+        this.maxRadioStation = countRadioStation - 1;
+    }
+
+    public int getCurrentRadioStation() {
+        return currentRadioStation;
+    }
+
+    public void setCurrentRadioStation(int currentRadioStation) {
+        if (currentRadioStation < minRadioStation) {
             return;
         }
-        if (currentStation > 9) {//больше максимума
+        if (currentRadioStation > maxRadioStation) {
             return;
         }
-        this.currentStation = currentStation;
+        this.currentRadioStation = currentRadioStation;
     }
 
-    public void next() {//+1 станция
-        this.currentStation = currentStation + 1;
-        if (currentStation > 9) {//станций 0-9 >= 10
-            this.currentStation = 0;
-        }
-    }
-
-    public void prev() {//нажал на кнопку предыдущая
-        this.currentStation = currentStation - 1;
-        if (currentStation == -1) {//было 0 стало -1 =9
-            this.currentStation = 9;
-        }
-    }
-
-    public void stationInput(int currentStation) {//задать № станции
-        if (currentStation < 0) { //отриц быть не должно
+    public void setNextRadioStation() {
+        if (currentRadioStation == maxRadioStation) {
+            this.currentRadioStation = 0;
             return;
         }
-        if (currentStation > 9) {//>9 быть не должно
-            return;
-        }
-        this.currentStation = currentStation;
+        this.currentRadioStation = currentRadioStation + 1;
     }
 
-    public int getCurrentVolume() {//получить урзвука
+    public void setPrevRadioStation() {
+        if (currentRadioStation == minRadioStation) {
+            this.currentRadioStation = maxRadioStation;
+            return;
+        }
+        this.currentRadioStation = currentRadioStation - 1;
+    }
+
+    public int getCurrentVolume() {
         return currentVolume;
     }
 
-    public void setCurrentVolume(int currentVolume) {//установить урзвука
+    public void setCurrentVolume(int currentVolume) {
+        if (currentVolume > maxVolume) {
+            return;
+        }
+        if (currentVolume < minVolume) {
+            return;
+        }
         this.currentVolume = currentVolume;
     }
 
-    public void volumePlus() {//громкость+ максимального
-        this.currentVolume = currentVolume + 1;
-        if (currentVolume >= 10) { //(в пределах от 0 до 10)
-            this.currentVolume = 10;
+    public void increaseVolume() {
+        if (currentVolume == maxVolume) {
+            return;
         }
+        this.currentVolume = currentVolume + 1;
     }
 
-    public void volumeMinus() {//громкость- низшего
-        this.currentVolume = currentVolume - 1;
-        if (currentVolume <= 0) { //(в пределах от 0 до 10)
-            this.currentVolume = 0;
+
+    public void decreaseVolume() {
+        if (currentVolume == minVolume) {
+            return;
         }
+        this.currentVolume = currentVolume - 1;
     }
 }
